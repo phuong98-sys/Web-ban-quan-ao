@@ -16,6 +16,12 @@ namespace CNW_WebBanQuanAo.Controllers
             return View();
         }
 
+        public void TestF()
+        {
+            var t = 5;
+            ////
+            return;
+        }
         public ActionResult DangNhap(TAIKHOAN acc)
         {
 
