@@ -153,6 +153,7 @@
     <Compile Include="Models\GIAODICH.cs" />
     <Compile Include="Models\GIOHANG.cs" />
     <Compile Include="Models\HOADON.cs" />
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\MATHANG.cs" />
     <Compile Include="Models\MAU.cs" />
     <Compile Include="Models\MyContext.cs" />
@@ -331,14 +332,13 @@
     <Content Include="Views\Shared\_LeftMenu.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Home\TestWebService.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Cart\Gio.cshtml" />
     <Content Include="Views\Cart\Payment.cshtml" />
     <Content Include="Views\Cart\GioTam.cshtml" />
     <Content Include="Views\Cart\ThanhToan.cshtml" />
-    <Content Include="Views\Account\DangNhap.cshtml" />
     <Content Include="Views\Cart\XemDon.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\DangNhap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

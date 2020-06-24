@@ -21,6 +21,11 @@ namespace CNW_WebBanQuanAo.Controllers
         {
             return View();
         }
+
+        void Phuong()
+        {
+
+        }
         [HttpPost]
         public ActionResult Register(RegisterModel model)
         {
@@ -55,7 +60,7 @@ namespace CNW_WebBanQuanAo.Controllers
                         {
                             ViewBag.Success = " Đăng kí thành công";
                             model = new RegisterModel();
-                            // return RedirectToAction("Login");
+                            
                         }
                         else
                         {
@@ -110,9 +115,12 @@ namespace CNW_WebBanQuanAo.Controllers
             }
             else if (result != null && result.isAdmin == 1)
             {
-                return Redirect("https://localhost:44332/Ad/AdIndex"); // đến trang admin
+                return Redirect("https://localhost:44332/Admin/Admin/Index"); // đến trang admin
             }
-
+            else
+            {
+                ModelState.AddModelError("", " Đăng nhập sai");
+            }
 
             return View();
         }
