@@ -1,51 +1,54 @@
-﻿
+﻿@model CNW_WebBanQuanAo.Models.LoginModel
+
 @{
     ViewBag.Title = "DangNhap";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<h2>DangNhap</h2>
 
-
-
-
-<section id="form">
-    <!--form-->
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4 col-sm-offset-1">
-                <div class="login-form">
-                    <!--login form-->
-                    <h2>Đăng nhập tài khoản của bạn</h2>
-                    <form action="/Account/DangNhap" method="post">
-                        <input type="text" placeholder="Tên đăng nhập" name="Username" />
-                        <input type="text" placeholder="Địa chỉ Email" name="Password" />
-                        <span>
-                            <input type="checkbox" class="checkbox">
-                            Giữ đăng nhập
-                        </span>
-                        <button type="submit" class="btn btn-default">Đăng nhập</button>
-                    </form>
-                </div><!--/login form-->
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>LoginModel</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
             </div>
-            <div class="col-sm-1">
-                <h2 class="or">Hoặc</h2>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.PasswordFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
             </div>
-            <div class="col-sm-4">
-                <div class="signup-form">
-                    <!--sign up form-->
-                    <h2>Đăng ký</h2>
-                    <form action="/Home/DangKy" method="post">
-                        <input type="text" placeholder="Tên đăng nhập" name="Username" />
-                        <input type="text" placeholder="Họ tên" name="HoTen" />
-                        <input type="hidden" placeholder="Admin" name="isAdmin" value="0" />
-                        <input type="email" placeholder="Địa chỉ Email" name="Email" />
-                        <input type="password" placeholder="Mật khẩu" name="Password" />
-                        <input type="text" placeholder="Số điện thoại" name="SDT" />
-                        <input type="text" placeholder="Địa chỉ" name="DiaChi" />
-                        <button type="submit" class="btn btn-default">Đăng ký</button>
-                    </form>
-                </div><!--/sign up form-->
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RememberMe, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.RememberMe)
+                    @Html.ValidationMessageFor(model => model.RememberMe, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
-</section><!--/form-->
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
