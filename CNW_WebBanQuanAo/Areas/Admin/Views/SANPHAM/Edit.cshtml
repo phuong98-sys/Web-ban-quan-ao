@@ -2,37 +2,34 @@
 @using CNW_WebBanQuanAo.Models
 
 @{ ViewBag.Title = "Edit";
-    List<MATHANG> anhMH = ViewBag.MaMH; }
+    }
 
 <h2>Chỉnh sửa sản phẩm</h2>
-
-
-<h4> @anhMH.Find(m => m.MaMH == 1).UrlAnh</h4>
 
 @using (Html.BeginForm())
 {
 @Html.AntiForgeryToken()
 
-                <div class="form-horizontal">
-                    <h4>Sản phẩm</h4>
-                    <hr />
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    @Html.HiddenFor(model => model.MaQA)
+    <div class="form-horizontal">
+        <h4>Sản phẩm</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.MaQA)
 
-                    <div class="row">
-                        <div class="col-sm-8">
-                            <div class="form-group">
-                                <label class="control-label col-md-3" for="MaMH">Mã mặt hàng</label>
-                                <div class="col-md-9">
-                                    <select class="form-control valid" id="MaMH" name="MaMH" aria-invalid="false">
-                                        @foreach (MATHANG mh in ViewBag.MaMH)
-                                        {
-                                            if (mh.MaMH.Equals(Model.MaMH))
-                                            {
-                        <option selected="selected" value="@mh.MaMH">@mh.TenMH</option>
- }
-                    else
-                    {
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="MaMH">Mã mặt hàng</label>
+                    <div class="col-md-9">
+                        <select class="form-control valid" id="MaMH" name="MaMH" aria-invalid="false">
+                            @foreach (MATHANG mh in ViewBag.MaMH)
+                            {
+                                if (mh.MaMH.Equals(Model.MaMH))
+                                {
+            <option selected="selected" value="@mh.MaMH">@mh.TenMH</option>
+}
+        else
+        {
 <option value="@mh.MaMH">@mh.TenMH</option>}
                 }
                                     </select>
@@ -49,12 +46,12 @@
                                         {
                                             if (size.MaSize.Equals(Model.MaSize))
                                             {
-                        <option value="@size.MaSize" selected="selected">@size.MaSize</option>
- }
-                    else
-                    {
-<option value="@size.MaSize">@size.MaSize</option>
-}
+                                                <option value="@size.MaSize" selected="selected">@size.MaSize</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@size.MaSize">@size.MaSize</option>
+                                            }
 }
                                     </select>
                                     <span class="field-validation-valid text-danger" data-valmsg-for="MaSize" data-valmsg-replace="true"></span>
@@ -79,7 +76,7 @@
 
                             <div class="form-group">
                                 <div class="col-md-offset-3 col-md-9">
-                                    <input type="submit" value="Save" class="btn btn-default" />
+                                    <input id="btnSubmit" type="submit" value="Lưu" class="btn btn-default" />
                                 </div>
                             </div>
                         </div>
@@ -91,7 +88,6 @@
                 </div>}
 
 <div>
-    @*@Html.ActionLink("Quay lại danh sách sản phẩm", "/Admin/MATHANG/Details/")*@
     <a href="/Admin/MATHANG/Details/@Model.MaMH">Quay lại danh sách sản phẩm</a>
 </div>
 
@@ -99,25 +95,42 @@
     @Scripts.Render("~/bundles/jqueryval")
 
 <script type="text/javascript">
-        $(document).ready(function () {
-            $("select").change(function () {
-            @*@var idMH = $(this).children("option:selected").val();
-            var url = @anhMH.Find(m => m.MaMH == id).UrlAnh;
-            $("#imgMH").attr('src', '~/Content/images/sanpham/@Model.MATHANG.UrlAnh')*@
-                alert('vao function roi');
-                $.ajax({
-                    url: "~/Controllers/SANPHAMController/GetMHURL/",
-                    type: 'POST',    
-                    data: { id = $(this).children("option:selected").val() },
-                    success: function (result) {
-                        alert(result);
-                        alert('thanh cong')
-                    },
-                    error: function (error) {
-                        alert('loi roi nha')
-                    }
-                })
+    $(document).ready(function () {
+        $("select").change(function () {
+            $.ajax({
+                url: '/Admin/SANPHAM/GetMHURL/' + $('#MaMH').children("option:selected").val(),
+                type: 'POST',
+                success: function (data) {
+                    $("#imgMH").attr('src', '/Content/images/sanpham/' + data)
+                },
+                error: function (err) {
+                    alert('error roi');
+                }
             })
-        });
+            $.ajax({
+                url: '/Admin/SANPHAM/GetSANPHAMQuantity?idMH=' +
+                    $('#MaMH').children("option:selected").val() + '&idSize=' +
+                    $('#MaSize').children("option:selected").val() + '&idMau=' +
+                    $('#MaMau').children("option:selected").val(),
+                type: 'POST',
+                success: function (data) {
+                    alert(data);
+                    if (data < 0) {
+                        $("#SoLuong").val(0);
+                        $("form").attr('action', '/Admin/SANPHAM/Edit');
+                        $("#btnSubmit").attr('value', 'Tạo mới');
+                    }
+                    else {
+                        $("#SoLuong").val(data);
+                        $("form").attr('action', '/Admin/SANPHAM/Create');
+                        $("#btnSubmit").attr('value', 'Lưu');
+                    }
+                },
+                error: function (err) {
+                    alert('error roi');
+                }
+            })
+        })
+    });
 </script>
 }

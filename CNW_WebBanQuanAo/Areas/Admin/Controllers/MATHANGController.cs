@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CNW_WebBanQuanAo.Models;
+using PagedList;
 
 namespace CNW_WebBanQuanAo.Areas.Admin.Controllers
 {
@@ -15,10 +16,19 @@ namespace CNW_WebBanQuanAo.Areas.Admin.Controllers
         private MyContext db = new MyContext();
 
         // GET: Admin/MATHANG
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             var mATHANG = db.MATHANG.Include(m => m.NHASANXUAT);
-            return View(mATHANG.ToList());
+
+            mATHANG = mATHANG.OrderBy(s => s.MaNSX);
+
+            int pageSize = 6;
+            int pageIndex = 1;
+
+            pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+            var model = mATHANG.ToPagedList(pageIndex, pageSize);
+
+            return View(model);
         }
 
         // GET: Admin/MATHANG/Details/5

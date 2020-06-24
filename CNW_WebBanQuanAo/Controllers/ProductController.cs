@@ -15,14 +15,6 @@ namespace CNW_WebBanQuanAo.Controllers
         public ActionResult Index(string sortOrder, string searchString, int? page, int MaNSX = -1)
         {
             ViewBag.CurrentSort = sortOrder;
-            //if (MaNSX < 0)
-            //{
-            //    //var model = from m in context.MATHANG select m;
-            //}
-            //else
-            //{
-            //    //var model = from m in context.MATHANG where m.MaNSX = MaNSX select m;
-            //}
 
             var model = context.MATHANG.Where(m => m.MaMH != null);
             if (!String.IsNullOrEmpty(searchString))

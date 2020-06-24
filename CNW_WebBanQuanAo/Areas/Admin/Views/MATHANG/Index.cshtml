@@ -1,8 +1,9 @@
-﻿@model IEnumerable<CNW_WebBanQuanAo.Models.MATHANG>
+﻿@*@model IEnumerable<CNW_WebBanQuanAo.Models.MATHANG>*@
+@using CNW_WebBanQuanAo.Models
+@model PagedList.IPagedList<MATHANG>
+@using PagedList.Mvc
 
-@{
-    ViewBag.Title = "Index";
-}
+@{ ViewBag.Title = "Index"; }
 
 <h2>Danh sách mặt hàng</h2>
 
@@ -32,36 +33,42 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            <a href="/Admin/MATHANG/Edit/@item.MaMH">@item.TenMH</a>
-        </td>
-        <td>
-            <a href="/Admin/NHASANXUAT/Details/@item.MaNSX">@item.NHASANXUAT.TenNSX</a>
-        </td>
-        <td>
-            <a href="/Admin/MATHANG/Edit/@item.MaMH">
-                <img src="~/Content/images/sanpham/@item.UrlAnh" style="width:150px;" />
-            </a> 
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.KieuDang)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ChatLieu)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GiaBan)
-        </td>
-        <td>
-            <a href="/Admin/MATHANG/Edit/@item.MaMH">Chỉnh sửa</a> | 
-            <a href="/Admin/MATHANG/Details/@item.MaMH">Chi tiết</a> |
-            <a href="/Admin/MATHANG/Delete/@item.MaMH">Xóa</a>
-            <hr />
-            <a href="/Admin/SANPHAM/Create">Thêm sản phẩm của mặt hàng này</a>
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        <a href="/Admin/MATHANG/Edit/@item.MaMH">@item.TenMH</a>
+    </td>
+    <td>
+        <a href="/Admin/NHASANXUAT/Details/@item.MaNSX">@item.NHASANXUAT.TenNSX</a>
+    </td>
+    <td>
+        <a href="/Admin/MATHANG/Edit/@item.MaMH">
+            <img src="~/Content/images/sanpham/@item.UrlAnh" style="width:150px;" />
+        </a>
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.KieuDang)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ChatLieu)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.GiaBan)
+    </td>
+    <td>
+        <a href="/Admin/MATHANG/Edit/@item.MaMH">Chỉnh sửa</a> |
+        <a href="/Admin/MATHANG/Details/@item.MaMH">Chi tiết</a> |
+        <a href="/Admin/MATHANG/Delete/@item.MaMH">Xóa</a>
+        <hr />
+        <a href="/Admin/SANPHAM/Create">Thêm sản phẩm của mặt hàng này</a>
+    </td>
+</tr>}
+
 
 </table>
+
+Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) trên @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+         new { page, sortOrder = ViewBag.CurrentSort }))

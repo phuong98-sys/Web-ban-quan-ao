@@ -22,6 +22,24 @@ namespace CNW_WebBanQuanAo.Areas.Admin.Controllers
             return View(sANPHAM.ToList());
         }
 
+        //[HttpPost]
+        public string SayHello()
+        {
+            return "hello tu controller";
+        }
+
+        public int GetSANPHAMQuantity(int idMH, string idSize, int idMau)
+        {
+            //var sp = db.SANPHAM.Where(s => s.MaMau.Equals(idMau) && s.MaMH.Equals(idMH) && s.MaSize.Equals(idSize)).FirstOrDefault();
+            //var sp = db.SANPHAM.Where(s => s.MaMau == idMau).FirstOrDefault();
+            var sp = db.SANPHAM.Where(s => s.MaMau == idMau 
+                    && s.MaMH == idMH && s.MaSize == idSize).FirstOrDefault();
+            if (sp is null)
+                return -1;
+
+            return Convert.ToInt32(sp.SoLuong);
+        }
+
         // GET: Admin/SANPHAM/Details/5
         public ActionResult Details(int? id)
         {
@@ -67,7 +85,7 @@ namespace CNW_WebBanQuanAo.Areas.Admin.Controllers
         }
 
         // GET: Admin/SANPHAM/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id = 1)
         {
             if (id == null)
             {
@@ -106,7 +124,7 @@ namespace CNW_WebBanQuanAo.Areas.Admin.Controllers
         }
 
         // GET: Admin/SANPHAM/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id=1)
         {
             if (id == null)
             {

@@ -20,7 +20,18 @@
     $(document).ready(function () {
         $("select#thuti").change(function () {
             //alert($(this).children("option:selected").val());
-            $("#myimg").attr('src', '/Content/images/home/girl1.jpg');
+            //$("#myimg").attr('src', '/Content/images/home/girl1.jpg');
+            $.ajax({
+                url: '/Admin/SANPHAM/GetMHURL/1',
+                type: 'POST',
+                success: function (data) {
+                    alert('successs roi');
+                },
+                error: function (err) {
+                    alert('error roi');
+                }
+            })
+
         })
     })
 
