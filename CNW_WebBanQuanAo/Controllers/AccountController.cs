@@ -21,6 +21,11 @@ namespace CNW_WebBanQuanAo.Controllers
         {
             return View();
         }
+
+        void Phuong()
+        {
+
+        }
         [HttpPost]
         public ActionResult Register(RegisterModel model)
         {
