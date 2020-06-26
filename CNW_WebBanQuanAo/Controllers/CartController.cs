@@ -64,7 +64,7 @@ namespace CNW_WebBanQuanAo.Controllers
             context.GIOHANG.Add(model);
             context.SaveChanges();
 
-            return Redirect("https://localhost:44332/Home/Index");
+            return Redirect("/Home/Index");
 
 
         }
