@@ -16,7 +16,6 @@ namespace CNW_WebBanQuanAo.Controllers
         // GET: Cart
         public ActionResult Gio()
         {
-
             var cart = (Cart)Session["CartSession"];
 
             if (cart == null)
@@ -24,18 +23,41 @@ namespace CNW_WebBanQuanAo.Controllers
                 cart = new Cart();
             }
             return View(cart);
-
-
         }
 
-       
-        public ActionResult AddItem(string returnURL)
+        //public ActionResult AddItem(string returnURL)
+        //{
+        //    int id = Convert.ToInt32(Request.Form["idSanPham"]);
+        //    var product = context.SANPHAM.Find(id);
+
+        //    var cart = (Cart)Session["CartSession"];
+
+        //    if (cart == null)
+        //    {
+        //        //tạo mới đối tượng cart item
+        //        cart = new Cart();
+        //        cart.AddItem(product, 1);
+        //        //Gán vào session
+        //        Session["CartSession"] = cart;
+        //    }
+        //    if (cart != null)
+        //    {
+        //        cart.AddItem(product, 1);
+        //        //Gán vào session
+        //        Session["CartSession"] = cart;
+        //    }
+
+
+        //    return RedirectToAction("Gio");
+
+
+        //}
+
+        public ActionResult AddItem(int id)
         {
-            int id = Convert.ToInt32(Request.Form["idSanPham"]);
             var product = context.SANPHAM.Find(id);
 
             var cart = (Cart)Session["CartSession"];
-
             if (cart == null)
             {
                 //tạo mới đối tượng cart item
@@ -53,8 +75,6 @@ namespace CNW_WebBanQuanAo.Controllers
 
 
             return RedirectToAction("Gio");
-
-
         }
 
         [HttpPost]
@@ -84,7 +104,6 @@ namespace CNW_WebBanQuanAo.Controllers
             }
             return RedirectToAction("Gio");
         }
-
 
         public ActionResult UpdateCart(int masp, int qty)
         {
