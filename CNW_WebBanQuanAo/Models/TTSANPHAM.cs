@@ -18,7 +18,8 @@ namespace CNW_WebBanQuanAo.Models
         [StringLength(10)]
         public string MaSize { get; set; }
 
-        public int? MaMau { get; set; }
+        [StringLength(20)]
+        public string MaMau { get; set; }
 
         [StringLength(50)]
         public string TenMH { get; set; }

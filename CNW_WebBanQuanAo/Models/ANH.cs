@@ -13,7 +13,8 @@ namespace CNW_WebBanQuanAo.Models
 
         public string UrlAnh { get; set; }
 
-        public int? MaMau { get; set; }
+        [StringLength(50)]
+        public string MaMau { get; set; }
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]

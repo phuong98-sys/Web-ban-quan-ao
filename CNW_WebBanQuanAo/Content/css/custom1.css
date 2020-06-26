@@ -23,10 +23,10 @@
 
 
 
-    .button:hover {
-        background-color: #BF382B;
-        color: white;
-    }
+.button:hover {
+    background-color: #BF382B;
+    color: white;
+}
 
 .center {
     margin-left: auto;

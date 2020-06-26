@@ -28,10 +28,10 @@
                         <span>Ưu tiên xem: </span>
                         <ul>
                             <li class="right-item">
-                                @Html.ActionLink("GIÁ THẤP", "Index", new { SortOrder = "asc" })
+                                @Html.ActionLink("GIÁ THẤP", "Index", new { SortOrder = "asc", MaNSX = ViewBag.NSX })
                             </li>
                             <li class="right-item">
-                                @Html.ActionLink("GIÁ CAO", "Index", new { SortOrder = "desc" })
+                                @Html.ActionLink("GIÁ CAO", "Index", new { SortOrder = "desc", MaNSX = ViewBag.NSX })
                             </li>
                             <li class="right-item"><a>BÁN CHẠY</a></li>
                         </ul>
@@ -52,14 +52,56 @@
                             </div>
                         </div>
                     }
-                    <br />
-                    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) trên @Model.PageCount
-
-                    @Html.PagedListPager(Model, page => Url.Action("Index",
-                        new { page, sortOrder = ViewBag.CurrentSort}))
                 </div><!--features_items-->
             </div>
+        </div>
+        <div class="row">
+            <br />
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) trên @Model.PageCount
+
+            @Html.PagedListPager(Model, page => Url.Action("Index",
+                new { page, sortOrder = ViewBag.CurrentSort, MaNSX = ViewBag.NSX }))
         </div>
     </div>
 </section>
 
+<script>
+    $(document).ready(function () {
+        $(".slider-track").click(function () {
+            alert('cahgne roi')
+        })
+    })
+</script>
+
+@*
+    $(document).ready(function () {
+        $(".brands_products li a").click(function () {
+            $(".brands_products li a").css("color", "#696763");
+            $(this).css("color", "red");
+            $.ajax({
+                type: "GET",
+                url: "/Product/Index?MaNSX=" + $(this).attr("at"),
+                success: function(result) {
+                    alert('vafo success nha')
+                },
+                error: function (ex) {
+                    alert('vafo errr nha')
+                }
+
+            })
+
+            //$.ajax({
+            //    type: "POST",
+            //    url: "/Product/ProductsByBrand",
+            //    dataType: 'json',
+            //    contentType: "application/json; charset=utf-8",
+            //    success: function(result) {
+            //        alert('vafo success nha')
+            //        alert(result)
+            //    },
+            //    error: function (ex) {
+            //        alert('vafo errr nha')
+            //    }
+            //})
+        })
+    })*@

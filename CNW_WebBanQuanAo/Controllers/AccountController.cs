@@ -13,6 +13,7 @@ namespace CNW_WebBanQuanAo.Controllers
         MyContext context = new MyContext();
         public ActionResult Index()
         {
+            var t = 0;
             return View();
             ///
         }
@@ -22,7 +23,6 @@ namespace CNW_WebBanQuanAo.Controllers
             return View();
         }
 
-       
         [HttpPost]
         public ActionResult Register(RegisterModel model)
         {
@@ -115,16 +115,19 @@ namespace CNW_WebBanQuanAo.Controllers
                         return Redirect("https://localhost:44332/Home/Index");
                     }
 
+      
+                    return Redirect("/Home/Index");
 
                 }
                 else if (result != null && result.isAdmin == 1)
                 {
                     Session["AdminLogin"] = acc;
                     return Redirect("https://localhost:44332/Admin/Admin/Index"); // đến trang admin
+                   
+                    return Redirect("/Home/Index");
                 }
                 else
                 {
-
                     if (CheckUser(acc.Username, acc.Password) == 1)
                     {
                         ModelState.AddModelError("", " Mật khẩu sai");
@@ -142,6 +145,16 @@ namespace CNW_WebBanQuanAo.Controllers
               
             }
            
+            }
+            else if (result != null && result.isAdmin == 1)
+            {
+                return Redirect("/Admin/Admin/Index"); // đến trang admin
+            }
+            //else
+            //{
+            //    ModelState.AddModelError("", " Đăng nhập sai");
+            //}
+
             return View();
         }
         public int CheckUser(string Username, string Password)

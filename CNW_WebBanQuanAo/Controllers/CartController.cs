@@ -16,7 +16,6 @@ namespace CNW_WebBanQuanAo.Controllers
         // GET: Cart
         public ActionResult Gio()
         {
-
             var cart = (Cart)Session["CartSession"];
 
             if (cart == null)
@@ -24,18 +23,41 @@ namespace CNW_WebBanQuanAo.Controllers
                 cart = new Cart();
             }
             return View(cart);
-
-
         }
 
-       
-        public ActionResult AddItem(string returnURL)
+        //public ActionResult AddItem(string returnURL)
+        //{
+        //    int id = Convert.ToInt32(Request.Form["idSanPham"]);
+        //    var product = context.SANPHAM.Find(id);
+
+        //    var cart = (Cart)Session["CartSession"];
+
+        //    if (cart == null)
+        //    {
+        //        //tạo mới đối tượng cart item
+        //        cart = new Cart();
+        //        cart.AddItem(product, 1);
+        //        //Gán vào session
+        //        Session["CartSession"] = cart;
+        //    }
+        //    if (cart != null)
+        //    {
+        //        cart.AddItem(product, 1);
+        //        //Gán vào session
+        //        Session["CartSession"] = cart;
+        //    }
+
+
+        //    return RedirectToAction("Gio");
+
+
+        //}
+
+        public ActionResult AddItem(int id)
         {
-            int id = Convert.ToInt32(Request.Form["idSanPham"]);
             var product = context.SANPHAM.Find(id);
 
             var cart = (Cart)Session["CartSession"];
-
             if (cart == null)
             {
                 //tạo mới đối tượng cart item
@@ -53,8 +75,6 @@ namespace CNW_WebBanQuanAo.Controllers
 
 
             return RedirectToAction("Gio");
-
-
         }
 
         [HttpPost]
@@ -64,7 +84,7 @@ namespace CNW_WebBanQuanAo.Controllers
             context.GIOHANG.Add(model);
             context.SaveChanges();
 
-            return Redirect("https://localhost:44332/Home/Index");
+            return Redirect("/Home/Index");
 
 
         }
@@ -84,7 +104,6 @@ namespace CNW_WebBanQuanAo.Controllers
             }
             return RedirectToAction("Gio");
         }
-
 
         public ActionResult UpdateCart(int masp, int qty)
         {
@@ -117,7 +136,7 @@ namespace CNW_WebBanQuanAo.Controllers
                 }
                 return View(cart);
             }
-            return Redirect("https://localhost:44332/Account/DangNhap");
+            return Redirect("/Account/DangNhap");
         }
 
 
@@ -172,7 +191,7 @@ namespace CNW_WebBanQuanAo.Controllers
 
                     cart.Clear();
                     Session["CartSession"] = cart;
-                    return Redirect("https://localhost:44332/Home/Index");
+                    return Redirect("/Home/Index");
 
                 }
 
@@ -184,7 +203,7 @@ namespace CNW_WebBanQuanAo.Controllers
             }
             else
             {
-                return Redirect("https://localhost:44332/Account/DangNhap");
+                return Redirect("/Account/DangNhap");
             }
 
 
@@ -200,7 +219,7 @@ namespace CNW_WebBanQuanAo.Controllers
                           join a in context.SIZE on k.MaSize equals a.MaSize
                           join b in context.MAU on k.MaMau equals b.MaMau
                           join c in context.ANH on h.MaMH equals c.MaMH
-                          where m.Username == dn.Username && c.MaMau == b.MaMau
+                          where m.Username == dn.Username && c.MaMau == b.MaMau 
                           select new dschitietsanpham()
                           {
                               maqa = n.MaQA,
@@ -230,7 +249,7 @@ namespace CNW_WebBanQuanAo.Controllers
                           join a in context.SIZE on k.MaSize equals a.MaSize
                           join b in context.MAU on k.MaMau equals b.MaMau
                           join c in context.ANH on h.MaMH equals c.MaMH
-                          where m.Username == dn.Username && c.MaMau == b.MaMau
+                          where m.Username == dn.Username && c.MaMau == b.MaMau 
                           select new dschitietsanpham()
                           {
                               maqa = n.MaQA,
@@ -346,7 +365,7 @@ namespace CNW_WebBanQuanAo.Controllers
 
 
             
-            return Redirect("https://localhost:44332/Home/Index");
+            return Redirect("/Home/Index");
 
         }
 
@@ -363,7 +382,7 @@ namespace CNW_WebBanQuanAo.Controllers
                          join d in context.ANH on b.MaMH equals d.MaMH
 
 
-                         where k.Username == dn.Username
+                         where k.Username == dn.Username 
                          select new xemgiohang()
                          {
                              MaQa = m.MaQA,

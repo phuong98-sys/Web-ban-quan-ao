@@ -28,7 +28,7 @@ namespace CNW_WebBanQuanAo.Areas.Admin.Controllers
             return "hello tu controller";
         }
 
-        public int GetSANPHAMQuantity(int idMH, string idSize, int idMau)
+        public int GetSANPHAMQuantity(int idMH, string idSize, string idMau)
         {
             //var sp = db.SANPHAM.Where(s => s.MaMau.Equals(idMau) && s.MaMH.Equals(idMH) && s.MaSize.Equals(idSize)).FirstOrDefault();
             //var sp = db.SANPHAM.Where(s => s.MaMau == idMau).FirstOrDefault();
