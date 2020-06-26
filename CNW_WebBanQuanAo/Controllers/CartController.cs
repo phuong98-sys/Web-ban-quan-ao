@@ -117,7 +117,7 @@ namespace CNW_WebBanQuanAo.Controllers
                 }
                 return View(cart);
             }
-            return Redirect("https://localhost:44332/Account/DangNhap");
+            return Redirect("/Account/DangNhap");
         }
 
 
@@ -172,7 +172,7 @@ namespace CNW_WebBanQuanAo.Controllers
 
                     cart.Clear();
                     Session["CartSession"] = cart;
-                    return Redirect("https://localhost:44332/Home/Index");
+                    return Redirect("/Home/Index");
 
                 }
 
@@ -184,7 +184,7 @@ namespace CNW_WebBanQuanAo.Controllers
             }
             else
             {
-                return Redirect("https://localhost:44332/Account/DangNhap");
+                return Redirect("/Account/DangNhap");
             }
 
 
@@ -200,7 +200,7 @@ namespace CNW_WebBanQuanAo.Controllers
                           join a in context.SIZE on k.MaSize equals a.MaSize
                           join b in context.MAU on k.MaMau equals b.MaMau
                           join c in context.ANH on h.MaMH equals c.MaMH
-                          where m.Username == dn.Username && c.MaMau == b.MaMau
+                          where m.Username == dn.Username && c.MaMau == b.MaMau 
                           select new dschitietsanpham()
                           {
                               maqa = n.MaQA,
@@ -230,7 +230,7 @@ namespace CNW_WebBanQuanAo.Controllers
                           join a in context.SIZE on k.MaSize equals a.MaSize
                           join b in context.MAU on k.MaMau equals b.MaMau
                           join c in context.ANH on h.MaMH equals c.MaMH
-                          where m.Username == dn.Username && c.MaMau == b.MaMau
+                          where m.Username == dn.Username && c.MaMau == b.MaMau 
                           select new dschitietsanpham()
                           {
                               maqa = n.MaQA,
@@ -346,7 +346,7 @@ namespace CNW_WebBanQuanAo.Controllers
 
 
             
-            return Redirect("https://localhost:44332/Home/Index");
+            return Redirect("/Home/Index");
 
         }
 
@@ -363,7 +363,7 @@ namespace CNW_WebBanQuanAo.Controllers
                          join d in context.ANH on b.MaMH equals d.MaMH
 
 
-                         where k.Username == dn.Username
+                         where k.Username == dn.Username 
                          select new xemgiohang()
                          {
                              MaQa = m.MaQA,
