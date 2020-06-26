@@ -13,6 +13,7 @@ namespace CNW_WebBanQuanAo.Controllers
         MyContext context = new MyContext();
         public ActionResult Index()
         {
+            var t = 0;
             return View();
             ///
         }
