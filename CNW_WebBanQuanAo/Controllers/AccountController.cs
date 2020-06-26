@@ -13,7 +13,6 @@ namespace CNW_WebBanQuanAo.Controllers
         MyContext context = new MyContext();
         public ActionResult Index()
         {
-            var t = 0;
             return View();
             ///
         }
@@ -22,7 +21,6 @@ namespace CNW_WebBanQuanAo.Controllers
         {
             return View();
         }
-
         [HttpPost]
         public ActionResult Register(RegisterModel model)
         {
@@ -57,7 +55,7 @@ namespace CNW_WebBanQuanAo.Controllers
                         {
                             ViewBag.Success = " Đăng kí thành công";
                             model = new RegisterModel();
-                            
+                            // return RedirectToAction("Login");
                         }
                         else
                         {
@@ -70,7 +68,7 @@ namespace CNW_WebBanQuanAo.Controllers
 
                 }
             }
-           
+            //return RedirectToAction("Login");
             return View(model);
         }
 
@@ -85,95 +83,40 @@ namespace CNW_WebBanQuanAo.Controllers
         {
             return context.TAIKHOAN.Count(x => x.Email == Email) > 0;
         }
-        [HttpGet]
-        public ActionResult DangNhap()
-        {
-            return View();
-        }
-        [HttpPost]
+
         public ActionResult DangNhap(TAIKHOAN acc)
         {
-            LoginModel model = new LoginModel();
+
             var result = context.TAIKHOAN.Where(a => a.Username.Equals(acc.Username) &&
                                                       a.Password.Equals(acc.Password)).FirstOrDefault();
-  
-            if (ModelState.IsValid)
+
+            if (result != null && result.isAdmin == 0)   // đến trang của người mua 
             {
-                if (result != null && result.isAdmin == 0)   // đến trang của người mua 
-                {
-                    Session["dnhap"] = acc;
+                Session["dnhap"] = acc;
 
-                    if (Session["dnhap"] != null && Session["CartSession"] != null)  // kiểm tra sesion đăng nhập để lúc mua sản phẩm tiếp theo sau khi đăng nhập thì
-                    {                                                                 // hệ thống không bắt đăng nhập lại để thêm sản phẩm tiếp vào giỏ hàng nữa
+                if (Session["dnhap"] != null && Session["CartSession"] != null)  // kiểm tra sesion đăng nhập để lúc mua sản phẩm tiếp theo sau khi đăng nhập thì
+                {                                                                 // hệ thống không bắt đăng nhập lại để thêm sản phẩm tiếp vào giỏ hàng nữa
 
 
-                        return Redirect("https://localhost:44332/Home/Index");
-                    }
-                    else if (Session["dnhap"] != null && Session["CartSession"] == null)
-                    {
-
-                        return Redirect("https://localhost:44332/Home/Index");
-                    }
-
-      
-                    return Redirect("/Home/Index");
-
+                    return Redirect("https://localhost:44332/Home/Index");
                 }
-                else if (result != null && result.isAdmin == 1)
+                else if (Session["dnhap"] != null && Session["CartSession"] == null)
                 {
-                    Session["AdminLogin"] = acc;
-                    return Redirect("https://localhost:44332/Admin/Admin/Index"); // đến trang admin
-                   
-                    return Redirect("/Home/Index");
+
+                    return Redirect("https://localhost:44332/Home/Index");
                 }
-                else
-                {
-                    if (CheckUser(acc.Username, acc.Password) == 1)
-                    {
-                        ModelState.AddModelError("", " Mật khẩu sai");
-                    }
-                    else if (CheckUser(acc.Username, acc.Password) == 2)
-                    {
-                        ModelState.AddModelError("", "Tên đăng nhập sai ");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", " Tài khoản chưa đăng kí");
-                    }
-                   
-                }
-              
-            }
-           
+
+
             }
             else if (result != null && result.isAdmin == 1)
             {
-                return Redirect("/Admin/Admin/Index"); // đến trang admin
+                return Redirect("https://localhost:44332/Ad/AdIndex"); // đến trang admin
             }
-            //else
-            //{
-            //    ModelState.AddModelError("", " Đăng nhập sai");
-            //}
+
 
             return View();
         }
-        public int CheckUser(string Username, string Password)
 
-        {
-           
-            int kq = context.TAIKHOAN.Count(x => x.Username == Username&& x.Password!=Password);
-            int kq1 = context.TAIKHOAN.Count(x => x.Username != Username && x.Password == Password);
-            if (kq > 0)
-                return 1;
-            else if (kq1 > 0)
-                return 2;
-            else
-                return 3;
-       
-           
-        }
-
-       
         [HttpPost]
         public ActionResult LoginPost()
         {
