@@ -103,24 +103,24 @@ namespace CNW_WebBanQuanAo.Controllers
                 {                                                                 // hệ thống không bắt đăng nhập lại để thêm sản phẩm tiếp vào giỏ hàng nữa
 
                    
-                    return Redirect("https://localhost:44332/Home/Index");
+                    return Redirect("/Home/Index");
                 }
                 else if (Session["dnhap"] != null && Session["CartSession"] == null)
                 {
                    
-                    return Redirect("https://localhost:44332/Home/Index");
+                    return Redirect("/Home/Index");
                 }
 
 
             }
             else if (result != null && result.isAdmin == 1)
             {
-                return Redirect("https://localhost:44332/Admin/Admin/Index"); // đến trang admin
+                return Redirect("/Admin/Admin/Index"); // đến trang admin
             }
-            else
-            {
-                ModelState.AddModelError("", " Đăng nhập sai");
-            }
+            //else
+            //{
+            //    ModelState.AddModelError("", " Đăng nhập sai");
+            //}
 
             return View();
         }

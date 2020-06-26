@@ -40,7 +40,7 @@
 {
                     <tr>
                         <td class="cart_product">
-                            <img src="~/Content/images/sanpham/@it.Sanpham.MATHANG.UrlAnh" alt="" />
+                            <img src="~/Content/images/cart/@it.Sanpham.MATHANG.UrlAnh" alt="" />
                            
                         </td>
                         <td class="cart_description">
@@ -52,7 +52,7 @@
                             <p>@it.Sanpham.MAU.TenMau</p>
                         </td>
                         <td class="cart_price">
-                            <p>@it.Sanpham.MATHANG.GiaBan</p>
+                            <p>@it.Sanpham.MATHANG.GiaBan 000đ</p>
                         </td>
                         <td class="cart_quantity">
                             <div class="cart_quantity_button">
@@ -60,7 +60,7 @@
                                     <input type="hidden" name="masp" value="@it.Sanpham.MaQA" />
 
                                     <input class="cart_quantity_input" type="text" name="qty" value="@it.Quantity" />
-                                    <button type="submit" class="btn btn-primary btn-sm">Cập nhật</button>
+                                    <button type="submit" class="btn btn-warning">Cập nhật</button>
 
                                 </form>
                             </div>
@@ -122,7 +122,7 @@
                             </form>
 
                         </li>
-                        <li>Tạm tính<span> @tongtien</span></li>
+                        <li>Tạm tính<span> @tongtien 000đ</span></li>
                        
                         <a class="btn btn-default check_out" href="/Cart/Payment">Thanh toán</a>
                     </ul>
