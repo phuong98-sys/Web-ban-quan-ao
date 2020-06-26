@@ -9,8 +9,8 @@
     <div class="container">
         <div class="row">
 
-
-            <div class="col-sm-4">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-7">
                 <div class="signup-form">
 
                     <div class="form-group">
@@ -25,12 +25,7 @@
                     {
                         @Html.AntiForgeryToken()
                         <!--sign up form-->
-                        <h2>Đăng ký</h2>
-
-
-
-
-
+                        <h2 style=" margin-left: 14px;font-size:30px;">Đăng ký</h2>
                         <div class="form-group">
                             @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-5" })
                             <div class="col-md-10">
@@ -94,6 +89,13 @@
 
                                 @*<input type="submit" value="Đăng kí" class="btn btn-default" />*@
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <br />
+                                <li>@Html.ActionLink("Đăng nhập", "DangNhap", "Account")</li>
+                            </div>
+
                         </div>
 
                     }
