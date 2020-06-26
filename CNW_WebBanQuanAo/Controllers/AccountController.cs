@@ -143,17 +143,10 @@ namespace CNW_WebBanQuanAo.Controllers
                    
                 }
               
-            }
+            
            
             }
-            else if (result != null && result.isAdmin == 1)
-            {
-                return Redirect("/Admin/Admin/Index"); // đến trang admin
-            }
-            //else
-            //{
-            //    ModelState.AddModelError("", " Đăng nhập sai");
-            //}
+          
 
             return View();
         }
@@ -172,7 +165,10 @@ namespace CNW_WebBanQuanAo.Controllers
        
            
         }
+        public void  phuong()
+        {
 
+        }
        
         [HttpPost]
         public ActionResult LoginPost()
