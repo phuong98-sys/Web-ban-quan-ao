@@ -3,8 +3,7 @@
 }
 
 @using CNW_WebBanQuanAo.Models;
-@using CNW_WebBanQuanAo.Controllers;
-@model CTMATHANG
+@model MATHANG
 
 <section>
     <div class="container">
@@ -17,8 +16,7 @@
                     <!--product-details-->
                     <div class="col-sm-5">
                         <div class="view-product">
-                            @*<img src="~/Content/images/product-details/1.jpg" alt="" />*@
-                            <img src="~/Content/images/sanpham/@Model.mATHANG.UrlAnh" alt="" />
+                            <img src="~/Content/images/sanpham/@Model.UrlAnh" alt="" />
                             @*<h3>ZOOM</h3>*@
                         </div>
 
@@ -58,59 +56,53 @@
                     <div class="col-sm-7">
                         <div class="product-information">
                             <!--/product-information-->
-                            <h2>@Model.mATHANG.TenMH</h2>
+                            <h2>@Model.TenMH</h2>
 
-                            <p>Mã : @Model.mATHANG.MaMH</p>
+                            <p >Mã : <span id="ProdID">@Model.MaMH</span></p>
                             <br />
                             <span style="padding-bottom:20px;">
-                                @using (Html.BeginForm("AddItem", "Cart", new { returnURL = Request.Url.AbsoluteUri }))
-        {
-                                <span>@Model.mATHANG.GiaBan 000₫</span>
-                                <br />
+                                    <span>@Model.GiaBan 000₫</span>
+                                    <br />
 
-                                <select name="idSanPham" id="idSanPham">
-                                    @foreach (var item in Model.SpList)
-                                    {
-                                        @*<a href="@Url.Action("AddItem", "Cart", new { id = item.MaQA })" btn btn-default add-to-cart">
-                    <i class="fa fa-shopping-cart"></i>Thêm vào giỏ
-                </a>*@
+                                    <div id="BangMau">
+                                        @{int i = 1;
+                                            foreach (var item in (from sp in Model.SANPHAM
+                                                                  group sp by sp.MaMau into mau
+                                                                  select mau))
+                                            {
+                                                <div id="@i" href="" class="color-box" style="background-color:@item.Key; cursor:pointer"></div>
+                                                i++;
+                                            }
+                                        }
+                                    </div>
 
-                                        <option value="@item.MaQA">Mã màu: @item.MaMau - Size: @item.MaSize</option>
+                                    <select id="BangSize">
+                                    </select>
 
-                                    }
-                                </select>
-                                <br />
-                                <br />
+                                    @*<select name="idSanPham" id="idSanPham">
+                                        @foreach (var item in Model.SANPHAM)
+                                        {
+                                            <option value="@item.MaQA">Mã màu: @item.MaMau - Size: @item.MaSize</option>
+                                        }
+                                    </select>*@
+                                    <br />
+                                    <br />
 
-                                <label for="quantity">Số lượng:</label>
-                                <input type="number" id="quantity" name="quantity" min="1" max="20" value="1">
+                                    <label for="quantity">Số lượng:</label>
+                                    <input type="number" id="quantity" name="quantity" min="1" max="20" value="1">
 
-                                @*<a href="@Url.Action("AddItem", "Cart", new { id = Model.mATHANG.MaMH, returnURL = Request.Url.AbsoluteUri })">*@
-                                <button type="submit" class="btn btn-fefault cart">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    Thêm vào giỏ
-                                </button>
-                                @*<a href="@Url.Action("AddItem", "Cart", new { id = Model })" btn btn-default add-to-cart">
-            <i class="fa fa-shopping-cart"></i>Thêm vào giỏ
-        </a>*@
-
-                                }
+                                    <button type="submit" class="btn btn-fefault cart" onclick="AddToCart()">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        Thêm vào giỏ
+                                    </button>
                             </span>
-                            <p><b>Kiểu dáng: </b>@Model.mATHANG.KieuDang</p>
-                            <p><b>Chất liệu: </b>@Model.mATHANG.ChatLieu</p>
-                            <p><b>Thương hiệu: </b>@Model.SpList[0].TenNSX</p>
-
-                            @*<ul>
-                                @foreach (var item in Model.SpList)
-                                {
-                                    <li>@item.MaMau - @item.MaSize</li>
-                                }
-                            </ul>*@
-                            @*   <a href=""><img src="~/Content/images/product-details/share.png" class="share img-responsive" alt="" /></a>*@
+                            <p><b>Kiểu dáng: </b>@Model.KieuDang</p>
+                            <p><b>Chất liệu: </b>@Model.ChatLieu</p>
+                            <p><b>Thương hiệu: </b>@Model.MaNSX</p>
                         </div><!--/product-information-->
                     </div>
                 </div><!--/product-details-->
-                
+
                 <div class="recommended_items">
                     <!--recommended_items-->
                     <h2 class="title text-center">SẢN PHẨM TƯƠNG TỰ </h2>
@@ -206,3 +198,84 @@
         </div>
     </div>
 </section>
+
+<script>
+    function AddToCart() {
+        return location.href = "/Cart/AddItem?id=" + $('#BangSize').children("option:selected").val();
+    }
+
+    function hexc(colorval) {
+        var parts = colorval.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+        delete (parts[0]);
+        for (var i = 1; i <= 3; ++i) {
+            parts[i] = parseInt(parts[i]).toString(16);
+            if (parts[i].length == 1) parts[i] = '0' + parts[i];
+        }
+        return '#' + parts.join('');
+    }
+
+    $(document).ready(function () {
+        $("#BangMau div").ready(function () {
+            $("#BangMau #1").css("border", "3px solid");
+            var maMH = $("#ProdID").text();
+            var maMau = hexc($("#BangMau #1").css("background-color"))
+
+            $.ajax({
+                type: 'POST',
+                url: '/Product/SizeByColor',
+                data: { colorID: maMau, prodID: maMH },
+                dataType: "json",
+                success: function (result) {
+                    $('#BangSize')
+                        .find('option')
+                        .remove()
+                        .end();
+
+                    $.each(result, function (key, val) {
+                        $("#BangSize").append('<option value="' + val.MaQA + '">' + val.MaSize + '</option>');
+                    })
+                },
+                error: function (ex) {
+                    alert('vafo errr nha')
+                }
+            })
+        })
+
+        $("#BangMau div").click(function (event) {
+            event.preventDefault();
+            $("#BangMau div").css("border", "1px solid");
+            $(this).css("border","3px solid")
+
+            var maMH = $("#ProdID").text();
+            var maMau = hexc($(this).css("background-color"))
+
+            $.ajax({
+                type: 'POST',
+                url: '/Product/SizeByColor',
+                data: {colorID: maMau, prodID: maMH},
+                dataType: "json",
+                success: function (result) {
+                    //$.each(result, function (val) {
+                        //options.append($("<option />").val(this.MaQA).text(this.MaSize));
+                        //options.append(new Option(val.MaSize, val.MaQA);
+                    //});
+                    $('#BangSize')
+                        .find('option')
+                        .remove()
+                        .end();
+
+                    //var i = 0;
+                    $.each(result, function(key, val) {
+                        //$("#BangSize").append('<option value="' + result[i].MaQA + '">' + result[i].MaSize + '</option>');
+                        $("#BangSize").append('<option value="' + val.MaQA + '">' + val.MaSize + '</option>');
+                        //alert(result[i].MaQA )
+                        //i++;
+                    })
+                },
+                error: function (ex) {
+                    alert('vafo errr nha')
+                }
+            })
+        })
+    })
+</script>

@@ -17,7 +17,8 @@ namespace CNW_WebBanQuanAo.Models
         }
 
         [Key]
-        public int MaMau { get; set; }
+        [StringLength(20)]
+        public string MaMau { get; set; }
 
         [StringLength(50)]
         public string TenMau { get; set; }
