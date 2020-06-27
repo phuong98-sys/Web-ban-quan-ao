@@ -25,6 +25,21 @@ namespace CNW_WebBanQuanAo.Controllers
             return View(cart);
         }
 
+        public static string MoneyType(int? money)
+        {
+            if (!money.HasValue) return "";
+            
+            var m = money.ToString();
+            int c = 1;
+            for (int i = m.Length -1; i >= 0; i--)
+            {
+                if (c % 3 == 0)
+                    m = m.Insert(i, " ");
+                c++;
+            }
+
+            return m;
+        }
 
         public ActionResult AddItem(int id, int quant)
         {
@@ -74,19 +89,38 @@ namespace CNW_WebBanQuanAo.Controllers
             return RedirectToAction("Gio");
         }
 
-        public ActionResult UpdateCart(int masp, int qty)
+        //public ActionResult UpdateCart(int masp, int qty)
+        //{
+        //    var cart = (Cart)Session["CartSession"];
+
+
+        //    if (cart != null)
+        //    {
+        //        var product = context.SANPHAM.Find(masp);
+        //        cart.UpdateItem(product, qty);
+        //        Session["CartSession"] = cart;
+        //    }
+
+        //    return RedirectToAction("Gio");
+        //}
+
+        public int UpdateCart(int masp, int qty)
         {
             var cart = (Cart)Session["CartSession"];
-           
 
             if (cart != null)
             {
                 var product = context.SANPHAM.Find(masp);
                 cart.UpdateItem(product, qty);
                 Session["CartSession"] = cart;
+
+                var t = qty * product.MATHANG.GiaBan;
+
+                if (t.HasValue)
+                    return (int) t;
             }
 
-            return RedirectToAction("Gio");
+            return 0;
         }
 
         [HttpGet]
