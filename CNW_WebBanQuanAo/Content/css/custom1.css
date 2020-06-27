@@ -21,7 +21,9 @@
     display: inline-block;
 }
 
-
+.hand {
+    cursor:pointer;
+}
 
 .button:hover {
     background-color: #BF382B;

@@ -10,6 +10,7 @@ namespace CNW_WebBanQuanAo.Controllers
     public class AccountController : Controller
     {
         // GET: Account
+        //Context
         MyContext context = new MyContext();
         public ActionResult Index()
         {

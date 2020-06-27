@@ -25,35 +25,8 @@ namespace CNW_WebBanQuanAo.Controllers
             return View(cart);
         }
 
-        //public ActionResult AddItem(string returnURL)
-        //{
-        //    int id = Convert.ToInt32(Request.Form["idSanPham"]);
-        //    var product = context.SANPHAM.Find(id);
 
-        //    var cart = (Cart)Session["CartSession"];
-
-        //    if (cart == null)
-        //    {
-        //        //tạo mới đối tượng cart item
-        //        cart = new Cart();
-        //        cart.AddItem(product, 1);
-        //        //Gán vào session
-        //        Session["CartSession"] = cart;
-        //    }
-        //    if (cart != null)
-        //    {
-        //        cart.AddItem(product, 1);
-        //        //Gán vào session
-        //        Session["CartSession"] = cart;
-        //    }
-
-
-        //    return RedirectToAction("Gio");
-
-
-        //}
-
-        public ActionResult AddItem(int id)
+        public ActionResult AddItem(int id, int quant)
         {
             var product = context.SANPHAM.Find(id);
 
@@ -62,13 +35,13 @@ namespace CNW_WebBanQuanAo.Controllers
             {
                 //tạo mới đối tượng cart item
                 cart = new Cart();
-                cart.AddItem(product, 1);
+                cart.AddItem(product, quant);
                 //Gán vào session
                 Session["CartSession"] = cart;
             }
-            if (cart != null)
+            else if (cart != null)
             {
-                cart.AddItem(product, 1);
+                cart.AddItem(product, quant);
                 //Gán vào session
                 Session["CartSession"] = cart;
             }
@@ -80,18 +53,14 @@ namespace CNW_WebBanQuanAo.Controllers
         [HttpPost]
         public ActionResult AddItemCSDL(GIOHANG model)
         {
-
             context.GIOHANG.Add(model);
             context.SaveChanges();
 
             return Redirect("/Home/Index");
-
-
         }
 
         public ActionResult RemoveLine(int id)
         {
-
             var product = context.SANPHAM.Find(id);
 
             var cart = (Cart)Session["CartSession"];
@@ -115,12 +84,9 @@ namespace CNW_WebBanQuanAo.Controllers
                 var product = context.SANPHAM.Find(masp);
                 cart.UpdateItem(product, qty);
                 Session["CartSession"] = cart;
-
-              
             }
 
             return RedirectToAction("Gio");
-
         }
 
         [HttpGet]
