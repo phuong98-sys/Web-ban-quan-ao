@@ -19,7 +19,6 @@
                             <img src="~/Content/images/sanpham/@Model.UrlAnh" alt="" />
                             @*<h3>ZOOM</h3>*@
                         </div>
-
                         @* Xu ly sau phan nay *@
                         <div id="similar-product" class="carousel slide" data-ride="carousel">
 
@@ -201,7 +200,7 @@
 
 <script>
     function AddToCart() {
-        return location.href = "/Cart/AddItem?id=" + $('#BangSize').children("option:selected").val();
+        return location.href = "/Cart/AddItem?id=" + $('#BangSize').children("option:selected").val() + '&quant=' + $("#quantity").val();
     }
 
     function hexc(colorval) {
