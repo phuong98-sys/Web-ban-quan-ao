@@ -91,63 +91,46 @@ namespace CNW_WebBanQuanAo.Controllers
             var result = context.TAIKHOAN.Where(a => a.Username.Equals(acc.Username) &&
                                                       a.Password.Equals(acc.Password)).FirstOrDefault();
 
-
-            
-
             if (ModelState.IsValid)
             {
-                
-
-            if (result != null && result.isAdmin == 0)   // đến trang của người mua 
-            {
-                Session["dnhap"] = acc;
-
-                if (Session["dnhap"] != null && Session["CartSession"] != null)  // kiểm tra sesion đăng nhập để lúc mua sản phẩm tiếp theo sau khi đăng nhập thì
-                {                                                                 // hệ thống không bắt đăng nhập lại để thêm sản phẩm tiếp vào giỏ hàng nữa
-                   return Redirect("/Home/Index");
-                }
-                else if (Session["dnhap"] != null && Session["CartSession"] == null)
+                if (result != null && result.isAdmin == 0)   // đến trang của người mua 
                 {
+                    Session["dnhap"] = acc;
 
-                    return Redirect("/Home/Index");
-                   
-                    
-                }
-                else
-                {
-                    if (CheckUser(acc.Username, acc.Password) == 1)
-                    {
-                        ModelState.AddModelError("", " Mật khẩu sai");
+                    if (Session["dnhap"] != null && Session["CartSession"] != null)  // kiểm tra sesion đăng nhập để lúc mua sản phẩm tiếp theo sau khi đăng nhập thì
+                    {                                                                 // hệ thống không bắt đăng nhập lại để thêm sản phẩm tiếp vào giỏ hàng nữa
+                       return Redirect("/Home/Index");
                     }
-                    else if (CheckUser(acc.Username, acc.Password) == 2)
+                    else if (Session["dnhap"] != null && Session["CartSession"] == null)
                     {
-                        ModelState.AddModelError("", "Tên đăng nhập sai ");
+                        return Redirect("/Home/Index");
                     }
                     else
                     {
-                        ModelState.AddModelError("", " Tài khoản chưa đăng kí");
+                        if (CheckUser(acc.Username, acc.Password) == 1)
+                        {
+                            ModelState.AddModelError("", " Mật khẩu sai");
+                        }
+                        else if (CheckUser(acc.Username, acc.Password) == 2)
+                        {
+                            ModelState.AddModelError("", "Tên đăng nhập sai ");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", " Tài khoản chưa đăng kí");
+                        }
                     }
-                   
                 }
-              
-            
-           
-            }
-          
-
-
-            else if (result != null && result.isAdmin == 1)
-            {
-                Session["AdminLogin"] = acc;
+                else if (result != null && result.isAdmin == 1)
+                {
+                    Session["AdminLogin"] = acc;
                  
-                return Redirect("Admin/Admin/Index"); // đến trang admin
-            }
-            else
-            {
+                    return Redirect("Admin/Admin/Index"); // đến trang admin
+                }
+                else
+                {
 
-            }
-
-
+                }
             }
             return View();
         }
@@ -156,20 +139,19 @@ namespace CNW_WebBanQuanAo.Controllers
         {
             int kq=context.TAIKHOAN.Count(x => x.Username == Username&& x.Password!=Password);
             int kq2 =context.TAIKHOAN.Count(x => x.Username != Username&& x.Password==Password);
-            if( kq>0)
-            return 1;
-            else if(kq2>0)
-            return 2;
+
+            if (kq > 0)
+                return 1;
+            else if (kq2 > 0)
+                return 2;
             else
-            return 3;
-           
+                return 3;
         }
         
         public ActionResult Logout()
         {
             Session["dnhap"] = null;
             return Redirect("/Home/Index");
-            return View();
         }
        
         [HttpPost]
@@ -212,11 +194,8 @@ namespace CNW_WebBanQuanAo.Controllers
             TAIKHOAN tk = new TAIKHOAN();
             tk.Username = Request.Cookies["usernameCookie"].Value;
             tk.Password = Request.Cookies["passwordCookie"].Value;
-            //Response.Write("ehe: " + tk.Username + tk.Password);
 
             return View(tk);
         }
-
-
     }
 }
