@@ -116,15 +116,14 @@ namespace CNW_WebBanQuanAo.Controllers
                     cart.UpdateItem(product, qty);
                     Session["CartSession"] = cart;
 
+                    var t = qty * product.MATHANG.GiaBan;
+                    if (t.HasValue)
+                        return (int)t;
                 }
                 else
                 {
                     ModelState.AddModelError("", "Sản phẩm chưa đủ số lượng !!");
                 }
-            }
-            var t = qty * product.MATHANG.GiaBan;
-                if (t.HasValue)
-                    return (int) t;
             }
 
             return 0;
