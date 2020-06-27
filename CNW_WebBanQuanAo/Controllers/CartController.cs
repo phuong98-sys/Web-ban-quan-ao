@@ -62,7 +62,8 @@ namespace CNW_WebBanQuanAo.Controllers
             }
 
 
-            return RedirectToAction("Gio");
+            //return RedirectToAction("Gio");
+            return RedirectToAction("Payment");
         }
 
         [HttpPost]
