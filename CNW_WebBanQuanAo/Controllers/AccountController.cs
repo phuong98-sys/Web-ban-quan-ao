@@ -11,15 +11,20 @@ namespace CNW_WebBanQuanAo.Controllers
     {
         // GET: Account
         //Context
+        public static string url;
         MyContext context = new MyContext();
+        [HttpGet]
         public ActionResult Index()
         {
+            TempData["fullpath"] = HttpContext.Request.Url.AbsolutePath;
+            
             return View();
             ///
         }
         [HttpGet]
         public ActionResult Register()
         {
+            TempData["fullpath"] = HttpContext.Request.Url.AbsolutePath;
             return View();
         }
         [HttpPost]
@@ -47,6 +52,7 @@ namespace CNW_WebBanQuanAo.Controllers
                         var user = new TAIKHOAN();
                         user.Username = model.Username;
                         user.SDT = model.SDT;
+                        user.isAdmin = 0;
                         user.HoTen = model.HoTen;
                         user.Password = model.Password;
                         user.DiaChi = model.DiaChi;
@@ -84,9 +90,16 @@ namespace CNW_WebBanQuanAo.Controllers
         {
             return context.TAIKHOAN.Count(x => x.Email == Email) > 0;
         }
-
-        public ActionResult DangNhap(TAIKHOAN acc)
+        [HttpGet]
+        public ActionResult DangNhap()
         {
+            ViewBag.returnUrl = Request.UrlReferrer;
+            return View();
+        }
+        [HttpPost]
+        public ActionResult DangNhap(TAIKHOAN acc, string returnUrl)
+        {
+            url = returnUrl;
 
             var result = context.TAIKHOAN.Where(a => a.Username.Equals(acc.Username) &&
                                                       a.Password.Equals(acc.Password)).FirstOrDefault();
@@ -103,16 +116,16 @@ namespace CNW_WebBanQuanAo.Controllers
                 Session["dnhap"] = acc;
 
                 if (Session["dnhap"] != null && Session["CartSession"] != null)  // kiểm tra sesion đăng nhập để lúc mua sản phẩm tiếp theo sau khi đăng nhập thì
-                {                                                                 // hệ thống không bắt đăng nhập lại để thêm sản phẩm tiếp vào giỏ hàng nữa
-                   return Redirect("/Home/Index");
-                }
+                {                                                                // hệ thống không bắt đăng nhập lại để thêm sản phẩm tiếp vào giỏ hàng nữa
+              
+                        return Redirect(returnUrl);
+                    }
                 else if (Session["dnhap"] != null && Session["CartSession"] == null)
                 {
+                        return Redirect(returnUrl);
+                       
 
-                    return Redirect("/Home/Index");
-                   
-                    
-                }
+                    }
                 else
                 {
                     if (CheckUser(acc.Username, acc.Password) == 1)
@@ -140,7 +153,7 @@ namespace CNW_WebBanQuanAo.Controllers
             {
                 Session["AdminLogin"] = acc;
                  
-                return Redirect("Admin/Admin/Index"); // đến trang admin
+                return Redirect("/Admin/Admin/Index"); // đến trang admin
             }
             else
             {
@@ -164,58 +177,16 @@ namespace CNW_WebBanQuanAo.Controllers
             return 3;
            
         }
+       
         
         public ActionResult Logout()
         {
             Session["dnhap"] = null;
+            
             return Redirect("/Home/Index");
-            return View();
+        
         }
        
-        [HttpPost]
-        public ActionResult LoginPost()
-        {
-            ViewBag.Message = "User logins theirs account";
-            string username = Request.Form["username"];
-            string password = Request.Form["password"];
-
-            string t = Request.Form["checkbox"];
-            //Response.Write(t);
-
-            //string k = Response.Cookies["LoginCookie"]["username"];
-            //string l = Response.Cookies["LoginCookie"]["password"];
-            //Response.Write(Response.Cookies["LoginCookie"]["username"]);
-            //Response.Write(Response.Cookies["LoginCookie"]["password"]);
-
-            if (!string.IsNullOrEmpty(t) && t.Equals("remember"))
-            {
-                Response.Cookies["usernameCookie"].Value = username;
-                Response.Cookies["passwordCookie"].Value = password;
-            }
-
-            if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
-            {
-                var user = context.TAIKHOAN.Where(m => m.Username.Equals(username) && m.Password.Equals(password)).ToList();
-                if (user.Count != 0)
-                {
-                    Response.Write("Dang nhap thanh cong");
-                    Session["LoggedinUser"] = user[0];
-                }
-            }
-
-            return RedirectToAction("Index");
-        }
-
-        [HttpGet]
-        public ActionResult Login()
-        {
-            TAIKHOAN tk = new TAIKHOAN();
-            tk.Username = Request.Cookies["usernameCookie"].Value;
-            tk.Password = Request.Cookies["passwordCookie"].Value;
-            //Response.Write("ehe: " + tk.Username + tk.Password);
-
-            return View(tk);
-        }
 
     }
 }

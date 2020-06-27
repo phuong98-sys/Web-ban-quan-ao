@@ -6,6 +6,7 @@
 
 <section id="slider">
     <!--slider-->
+
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
@@ -46,7 +47,7 @@
                             <div class="col-sm-6">
                                 <h1><span>E</span>-SHOPPER</h1>
                                 <h2>Cửa hàng bán quần áo nữ</h2>
-@*                                <button type="button" class="btn btn-default get">Get it now</button>*@
+                                @*                                <button type="button" class="btn btn-default get">Get it now</button>*@
                             </div>
                             <div class="col-sm-6">
                                 <img src="~/Content/images/home/girl3.jpg" class="girl img-responsive" alt="" />
@@ -106,9 +107,9 @@
                 </div><!--features_items-->
 
 
-                <div class="recommended_items"style="padding-top:16px;">
+                <div class="recommended_items" style="padding-top:16px;">
                     <!--recommended_items-->
-                    <h2 class="title text-center" >Gợi ý cho bạn</h2>
+                    <h2 class="title text-center">Gợi ý cho bạn</h2>
 
                     <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
@@ -128,8 +129,8 @@
                                     </div>
                                 }
                             </div>
-                            
-                            @for (int i = 3; i < Model.Count; i+=3)
+
+                            @for (int i = 3; i < Model.Count; i += 3)
                             {
                                 <div class="item">
                                     @for (int j = 0; j < 3 && i + j < Model.Count; j++)
@@ -138,7 +139,7 @@
                                             <div class="product-image-wrapper">
                                                 <div class="single-products">
                                                     <div class="productinfo text-center">
-                                                        <img src="~/Content/images/sanpham/@Model[i + j].UrlAnh"/>
+                                                        <img src="~/Content/images/sanpham/@Model[i + j].UrlAnh" />
                                                         <h2>@Model[i + j].GiaBan 000 ₫</h2>
                                                         <p>@Model[i + j].TenMH</p>
                                                     </div>

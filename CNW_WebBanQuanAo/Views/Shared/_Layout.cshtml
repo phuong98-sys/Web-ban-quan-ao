@@ -66,14 +66,17 @@
                         <div class="col-md-8 clearfix">
                             <div class="shop-menu clearfix pull-right">
                                 <ul class="nav navbar-nav">
-                                    <li><a href="~/Admin/Admin/Index"><i class="fa fa-user"></i> Admin</a></li>
+                                    
                                     <li>
 
-                                        @if (Session["dnhap"] != null)
+                                        @*@if (Session["dnhap"] != null)
                                         {
+
                                             <i class="fa fa-user">
                                                 @Html.ActionLink("Tài khoản", "XemDon", "Cart")
-                                            </i>
+
+
+                                            </i> 
                                         }
                                         else
                                         {
@@ -82,112 +85,82 @@
                                             </i>
 
 
-
-                                            <a href="/Cart/XemDon"><i class="fa fa-user"></i>Tài khoản</a>
-                                        }
-                                        @*else
-                  {
-                      <a href="/Account/DangNhap"><i class="fa fa-user"></i>Tài khoản</a>
-
-                  }*@
-
-                                        }
-
+                                          
+                                        }*@
+                                      
                                     </li>
-                                    <li><a href=""><i class="fa fa-star"></i> Sản phẩm yêu thích</a></li>
+                         
                                     <li>
                                         @if (Session["dnhap"] != null && Session["CartSession"] != null)
                                         {
-                                            <i class="fa fa-crosshairs">
-                                                @Html.ActionLink("Thanh toán", "Payment", "Cart")
-                                            </i>
+                                            <a href="/Cart/Payment"><i class="fa fa-crosshairs"></i>Thanh toán</a>
                                         }
                                         else if (Session["dnhap"] == null)
-                                        { <i class="fa fa-crosshairs">
-                                                @Html.ActionLink("Thanh toán", "DangNhap", "Account")
-                                            </i>
+                                        {
+                                            <a href="/Account/DangNhap"><i class="fa fa-crosshairs"></i>Thanh toán</a>
                                         }
                                         else if (Session["dnhap"] != null && Session["CartSession"] == null)
                                         {
-                                            <i class="fa fa-crosshairs">
-                                                @Html.ActionLink("Thanh toán", "ThanhToan", "Cart")
-                                            </i>
+                                            <a href="/Cart/ThanhToan"><i class="fa fa-crosshairs"></i>Thanh toán</a>
                                         }
                                     </li>
                                     <li>
                                         @if (Session["dnhap"] == null && Session["CartSession"] != null)
                                         {
-                                            <i class="fa fa-shopping-cart">
-                                                @Html.ActionLink("Giỏ hàng", "Gio", "Cart")
-                                            </i>
+                                            <a href="/Cart/Gio"><i class="fa fa-shopping-cart"></i>Giỏ hàng</a>
                                         }
 
                                         else if (Session["dnhap"] != null && Session["CartSession"] == null)
                                         {
-                                            <i class="fa fa-shopping-cart">
-                                                @Html.ActionLink("Giỏ hàng", "GioTam", "Cart")
-                                            </i>
+                                            <a href="/Cart/GioTam"><i class="fa fa-shopping-cart"></i>Giỏ hàng</a>
                                         }
                                         else if (Session["dnhap"] == null && Session["CartSession"] == null)
                                         {
-                                            <i class="fa fa-shopping-cart">
-                                                @Html.ActionLink("Giỏ hàng", "DangNhap", "Account")
-                                            </i>
+                                            <a href="/Account/DangNhap"><i class="fa fa-shopping-cart"></i>Giỏ hàng</a>
                                         }
                                     </li>
-
                                     @{var user = (TAIKHOAN)Session["dnhap"];
                                         if (user == null)
                                         {
-                                         
-                                            <li class=" dropdown">
-                                                <a href="~/Account/DangNhap"><i class="fa fa-lock"> Đăng nhập</i> </a>
+
+                                            <li class=" dropdown" >
+                                                    <a href="~/Account/DangNhap"><i class="fa fa-user" > Đăng nhập</i> </a>
 
 
-                                                <ul class="sub-menu">
+                                                    <ul  class="sub-menu" >
+                                                       
+                                                            <li ><a href="~/Account/Register"  style="background: none;">Đăng kí</a></li>
+                                                            <br />
+                                                            <li><a href="~/Account/Logout"  style="background: none;">Đăng xuất</a></li>
+                                                       
+                                                    </ul>
 
-                                                    <li><a href="~/Account/Register" style="background: none;">Đăng kí</a></li>
-                                                    <br />
-                                                    <li><a href="~/Account/Logout" style="background: none;">Đăng xuất</a></li>
-
-                                                </ul>
-
-                                            </li>
+                                                </li>
 
                                         }
                                         else
                                         {
-
-                                            <li class=" dropdown">
-                                                <a href="~/Account/DangNhap"><i class="fa fa-user"> @user.Username</i> </a>
-
-
-                                                <ul class="sub-menu">
-
-                                                    <li><a href="~/Account/Register" style="background: none;">Đăng kí</a></li>
-                                                    <br />
-                                                    <li><a href="~/Account/Logout" style="background: none;">Đăng xuất</a></li>
-
-                                                </ul>
-
-                                            </li>
+                                           
+                                                <li class=" dropdown" >
+                                                    <a href="#"><i class="fa fa-user" > @user.Username</i> </a>
 
 
+                                                    <ul  class="sub-menu" >
+                                                       
+                                                            <li ><a href="~/Account/Register"  style="background: none;">Đăng kí</a></li>
+                                                            <br />
+                                                            <li><a href="~/Account/Logout"  style="background: none;">Đăng xuất</a></li>
+                                                       
+                                                    </ul>
 
+                                                </li>
+                                        
+                                            
 
-                                    @{var user = (TAIKHOAN)Session["LoggedinUser"];
-                                        if (user is null)
-                                        {
-                                            <li><a href="~/Account/Login"><i class="fa fa-lock"></i> Đăng nhập</a></li>
-                                        }
-                                        else
-                                        {
-                                            <li><a href="~/Account/Login"><i class="fa fa-user"></i> @user.HoTen </a></li>
-
-                                        }
-                                    }
-                                  
-                                </ul>
+                                                }
+                                                }
+                                               
+                                            </ul>
 </div>
                         </div>
                     </div>
@@ -217,11 +190,24 @@
                                             <li><a href="~/Home/Detail">Chi tiết sản phẩm</a></li>
                                             <li><a href="~/Home/Checkout">Thanh toán</a></li>
                                             <li><a href="~/Home/Cart">Giỏ hàng</a></li>
-                                            <li><a href="~/Home/Login">Đăng nhập</a></li>
+                                            <li><a href="~/Home/DangNhap">Đăng nhập</a></li>
                                         </ul>
                                     </li>
                                     <!--<li><a href="404.html">404</a></li>-->
-                                    <li><a href="~/Home/Contact">Liên hệ với chúng tôi</a></li>
+                                    <li>
+                                        @if (Session["dnhap"] == null)
+                                        {
+                                        <a href="~/Account/DangNhap">Liên hệ với chúng tôi</a>
+                                        }
+
+
+                                        else
+                                        {
+                                            <a href="~/Home/Contact">Liên hệ với chúng tôi</a>
+                                        
+                                        }
+                                    </li>
+                                   
                                 </ul>
                             </div>
                         </div>
@@ -231,10 +217,10 @@
                                 {
                                     <p>
                                         @Html.TextBox("SearchString")
-                                        <input type="submit" value="Tìm kiếm" placeholder="Tìm theo tên sản phẩm" />
+                                        <input type="submit" value="Tìm kiếm" placeholder="Tìm theo tên sản phẩm"/>
                                     </p>
                                 }
-                            </div>
+                                </div>
                         </div>
                     </div>
                 </div>
