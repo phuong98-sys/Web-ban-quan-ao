@@ -113,10 +113,16 @@ namespace CNW_WebBanQuanAo.Controllers
             if (cart != null)
             {
                 var product = context.SANPHAM.Find(masp);
-                cart.UpdateItem(product, qty);
-                Session["CartSession"] = cart;
+                if (product.SoLuong > qty)
+                {
+                    cart.UpdateItem(product, qty);
+                    Session["CartSession"] = cart;
 
-              
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Sản phẩm chưa đủ số lượng !!");
+                }
             }
 
             return RedirectToAction("Gio");
@@ -172,6 +178,14 @@ namespace CNW_WebBanQuanAo.Controllers
                         context.GIAODICH.Add(obj);
                         context.SaveChanges();
 
+                        var giodn = context.GIOHANG.Where(m => m.MaKH == MaKH).FirstOrDefault();
+                        if (giodn != null)
+                        {
+
+                            context.GIOHANG.Remove(giodn);
+                            context.SaveChanges();
+                        }
+
                         SANPHAM sp = new SANPHAM();
                         sp = context.SANPHAM.Find(obj.MaQA);
                         if (sp.SoLuong > obj.SoLuong)
@@ -181,6 +195,8 @@ namespace CNW_WebBanQuanAo.Controllers
                         }
                         else
                         {
+                            //context.GIOHANG.Remove(gi);
+                            context.HOADON.Remove(model);
                             context.GIAODICH.Remove(obj);
                             context.SaveChanges();
                         }
@@ -219,7 +235,7 @@ namespace CNW_WebBanQuanAo.Controllers
                           join a in context.SIZE on k.MaSize equals a.MaSize
                           join b in context.MAU on k.MaMau equals b.MaMau
                           join c in context.ANH on h.MaMH equals c.MaMH
-                          where m.Username == dn.Username && c.MaMau == b.MaMau 
+                          where m.Username == dn.Username && c.MaMau == b.MaMau
                           select new dschitietsanpham()
                           {
                               maqa = n.MaQA,
@@ -232,8 +248,24 @@ namespace CNW_WebBanQuanAo.Controllers
 
                           }
                          ).ToList();
-            return View(model1);
 
+            var giodn = context.GIOHANG.Where(m=>m.MaKH == dn.Username).FirstOrDefault();
+           
+            var pro = model1.FirstOrDefault();
+           
+            var cart = (Cart)Session["CartSession"];
+            cart = new Cart();
+            if (giodn != null)
+            {
+              
+                var product = context.SANPHAM.Find(pro.maqa);
+                var sl = context.GIOHANG.Find(dn.Username, pro.maqa);
+                cart.AddItem(product, sl.SoLuong.Value);
+                Session["CartSession"] = cart;
+            }
+
+          //  return View(model1);
+            return View(cart);
         }
 
 
