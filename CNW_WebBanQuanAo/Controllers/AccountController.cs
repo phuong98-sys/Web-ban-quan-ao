@@ -16,15 +16,15 @@ namespace CNW_WebBanQuanAo.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            TempData["fullpath"] = HttpContext.Request.Url.AbsolutePath;
+          
             
             return View();
-            ///
+            
         }
         [HttpGet]
         public ActionResult Register()
         {
-            TempData["fullpath"] = HttpContext.Request.Url.AbsolutePath;
+            
             return View();
         }
         [HttpPost]
@@ -62,7 +62,7 @@ namespace CNW_WebBanQuanAo.Controllers
                         {
                             ViewBag.Success = " Đăng kí thành công";
                             model = new RegisterModel();
-                            // return RedirectToAction("Login");
+                          
                         }
                         else
                         {
@@ -75,7 +75,7 @@ namespace CNW_WebBanQuanAo.Controllers
 
                 }
             }
-            //return RedirectToAction("Login");
+            
             return View(model);
         }
 

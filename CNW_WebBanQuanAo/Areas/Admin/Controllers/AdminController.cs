@@ -105,7 +105,7 @@ namespace CNW_WebBanQuanAo.Areas.Admin.Controllers
                         {
                             ViewBag.Success = " Đăng kí thành công";
                             model = new RegisterModel();
-                            // return RedirectToAction("Login");
+                          
                         }
                         else
                         {
@@ -118,7 +118,7 @@ namespace CNW_WebBanQuanAo.Areas.Admin.Controllers
 
                 }
             }
-            //return RedirectToAction("Login");
+          
             return View(model);
             
         }
@@ -139,7 +139,7 @@ namespace CNW_WebBanQuanAo.Areas.Admin.Controllers
         {
             Session["AdminLogin"] = null;
             return Redirect("~/Admin/Admin/Index");
-            // return View();
+          
         }
     }
 }
