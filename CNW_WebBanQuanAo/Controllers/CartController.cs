@@ -103,7 +103,6 @@ namespace CNW_WebBanQuanAo.Controllers
 
         //    return RedirectToAction("Gio");
         //}
-
         public int UpdateCart(int masp, int qty)
         {
             var cart = (Cart)Session["CartSession"];
@@ -132,19 +131,25 @@ namespace CNW_WebBanQuanAo.Controllers
         [HttpGet]
         public ActionResult Payment()
         {
-            if (Session["dnhap"] != null)
+            //if (Session["dnhap"] != null)
+            //{
+            //    var cart = (Cart)Session["CartSession"];
+            //    if (cart == null)
+            //    {
+            //        cart = new Cart();
+            //    }
+            //    return View(cart);
+            //}
+            //return Redirect("/Account/DangNhap");
+
+            var cart = (Cart)Session["CartSession"];
+
+            if (cart == null)
             {
-                var cart = (Cart)Session["CartSession"];
-                if (cart == null)
-                {
-
-                    cart = new Cart();
-                }
-                return View(cart);
+                cart = new Cart();
             }
-            return Redirect("/Account/DangNhap");
+            return View(cart);
         }
-
 
         [HttpPost]
         public ActionResult Payment(DateTime Ngaygiao, string MaKH, string TenKhach, string DiaChiKhach, string TrangThai)
@@ -200,15 +205,11 @@ namespace CNW_WebBanQuanAo.Controllers
                             context.GIAODICH.Remove(obj);
                             context.SaveChanges();
                         }
-
-
-
                     }
 
                     cart.Clear();
                     Session["CartSession"] = cart;
                     return Redirect("/Home/Index");
-
                 }
 
                 catch (Exception ex)
@@ -221,10 +222,7 @@ namespace CNW_WebBanQuanAo.Controllers
             {
                 return Redirect("/Account/DangNhap");
             }
-
-
         }
-
         public ActionResult GioTam()
         {
             var dn = (TAIKHOAN)Session["dnhap"];
@@ -268,9 +266,7 @@ namespace CNW_WebBanQuanAo.Controllers
             return View(cart);
         }
 
-
         [HttpGet]
-
         public ActionResult ThanhToan()
         {
             var dn = (TAIKHOAN)Session["dnhap"];
@@ -297,15 +293,9 @@ namespace CNW_WebBanQuanAo.Controllers
             return View(model1);
 
         }
-
         [HttpPost]
         public ActionResult ThanhToan(DateTime Ngaygiao, string MaKH, string TenKhach, string DiaChiKhach, string TrangThai)
         {
-
-
-
-
-
             HOADON model = new HOADON();
             var dn = (TAIKHOAN)Session["dnhap"];
             model.NgayDat = DateTime.Now;
@@ -315,13 +305,10 @@ namespace CNW_WebBanQuanAo.Controllers
             model.TenKhach = TenKhach;
             model.DiaChiKhach = DiaChiKhach;
 
-           
-
             var x = context.HOADON.Count();
             model.MaHD = x + 1;
             context.HOADON.Add(model);
             context.SaveChanges();
-
 
             //var model3 =model2.
 
@@ -400,7 +387,6 @@ namespace CNW_WebBanQuanAo.Controllers
             return Redirect("/Home/Index");
 
         }
-
         public ActionResult XemDon(int? page)
         {
             var dn = (TAIKHOAN)Session["dnhap"];
@@ -433,8 +419,25 @@ namespace CNW_WebBanQuanAo.Controllers
             return View(model);
 
         }
-       
 
-      
+        public JsonResult GetUserAccount()
+        {
+            var dn = (TAIKHOAN)Session["dnhap"];
+
+            //var tk = context.TAIKHOAN.Find(dn.Username);
+            var acc = from tk in context.TAIKHOAN
+                     where tk.Username == dn.Username
+                     select new
+                     {
+                         tk.HoTen,
+                         tk.Username,
+                         tk.DiaChi,
+                         tk.Email,
+                         tk.SDT
+                     };
+
+
+            return Json(acc, JsonRequestBehavior.AllowGet);
+        }
     }
 }
