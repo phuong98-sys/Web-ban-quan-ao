@@ -1,3 +1,4 @@
+
 ﻿<!DOCTYPE html>
 <html>
 <head>
@@ -66,13 +67,6 @@
                         <div class="col-md-8 clearfix">
                             <div class="shop-menu clearfix pull-right">
                                 <ul class="nav navbar-nav">
-                                    
-                                    <li>
-
-                                       
-                                      
-                                    </li>
-                         
                                     <li>
                                         @if (Session["dnhap"] != null && Session["CartSession"] != null)
                                         {
@@ -92,7 +86,6 @@
                                         {
                                             <a href="/Cart/Gio"><i class="fa fa-shopping-cart"></i>Giỏ hàng</a>
                                         }
-
                                         else if (Session["dnhap"] != null && Session["CartSession"] == null)
                                         {
                                             <a href="/Cart/GioTam"><i class="fa fa-shopping-cart"></i>Giỏ hàng</a>
@@ -145,6 +138,7 @@
                                                
                                             </ul>
 </div>
+
                         </div>
                     </div>
                 </div>
@@ -385,3 +379,4 @@
     <script src="~/Content/js/main.js"></script>
 </body>
 </html>
+
