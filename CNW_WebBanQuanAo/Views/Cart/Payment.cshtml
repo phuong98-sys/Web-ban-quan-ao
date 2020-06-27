@@ -45,7 +45,24 @@
                     <label><input type="checkbox"> Đăng kí tài khoản</label>
                 </li>
                 <li>
-                    <label><input type="checkbox"> Thanh toán khách</label>
+                    @*<label>*@
+                        @*<input type="checkbox"> Thanh toán khách*@
+
+                    <form action="@Url.Action("AddItemCSDL")" method="post">
+                        @foreach (CartItem it in Model.Lines)
+                        {
+                            <input type="hidden" name="maqa" value="@it.Sanpham.MaQA" />
+
+                            <input type="hidden" name="soluong" value="@it.Quantity" />
+
+                        }
+                        <input type="hidden" placeholder="Mã khách" name ="MaKH" value="@tk.Username" />
+                        @*<input type="text" placeholder="Mã khách" name="makh" />*@
+                        @*<input type="checkbox"> Thanh toán khách*@
+
+                        <button type="submit" class="btn btn-default update">Tạm chưa thanh toán</button>
+                    </form>
+                    @*</label>*@
                 </li>
                 <li>
                     <a href=""><i class="fa fa-times"></i>Hủy</a>
