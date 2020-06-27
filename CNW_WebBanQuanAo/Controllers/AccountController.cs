@@ -96,7 +96,8 @@ namespace CNW_WebBanQuanAo.Controllers
             LoginModel model = new LoginModel();
             var result = context.TAIKHOAN.Where(a => a.Username.Equals(acc.Username) &&
                                                       a.Password.Equals(acc.Password)).FirstOrDefault();
-  
+
+            string url = "https://localhost:44332/Admin/Admin/Index";
             if (ModelState.IsValid)
             {
                 if (result != null && result.isAdmin == 0)   // đến trang của người mua 
@@ -116,15 +117,15 @@ namespace CNW_WebBanQuanAo.Controllers
                     }
 
       
-                    return Redirect("/Home/Index");
+                 
 
                 }
                 else if (result != null && result.isAdmin == 1)
                 {
                     Session["AdminLogin"] = acc;
-                    return Redirect("https://localhost:44332/Admin/Admin/Index"); // đến trang admin
-                   
-                    return Redirect("/Home/Index");
+                    //return Redirect("https://localhost:44332/Admin/Admin/Index"); // đến trang admin
+                    return Redirect(url);
+                    
                 }
                 else
                 {
@@ -165,9 +166,11 @@ namespace CNW_WebBanQuanAo.Controllers
        
            
         }
-        public void  phuong()
+       public ActionResult Logout()
         {
-
+            Session["dnhap"] = null;
+            return Redirect("/");
+            return View();
         }
        
         [HttpPost]

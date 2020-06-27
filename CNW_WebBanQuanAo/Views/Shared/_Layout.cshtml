@@ -76,7 +76,7 @@
                                                 @Html.ActionLink("Tài khoản", "XemDon", "Cart")
 
 
-                                            </i> 
+                                            </i>
                                         }
                                         else
                                         {
@@ -87,11 +87,11 @@
 
                                             <a href="/Cart/XemDon"><i class="fa fa-user"></i>Tài khoản</a>
                                         }
-                                        else
-                                        {
-                                            <a href="/Account/DangNhap"><i class="fa fa-user"></i>Tài khoản</a>
+                                        @*else
+            {
+                <a href="/Account/DangNhap"><i class="fa fa-user"></i>Tài khoản</a>
 
-                                        }
+            }*@
                                     </li>
                                     <li><a href=""><i class="fa fa-star"></i> Sản phẩm yêu thích</a></li>
                                     <li>
@@ -126,46 +126,59 @@
                                     @{var user = (TAIKHOAN)Session["dnhap"];
                                         if (user == null)
                                         {
-                                            <li><a href="#"><i class="fa fa-lock"></i> Đăng nhập</a></li>
+                                         
+                                            <li class=" dropdown">
+                                                <a href="~/Account/DangNhap"><i class="fa fa-lock"> Đăng nhập</i> </a>
+
+
+                                                <ul class="sub-menu">
+
+                                                    <li><a href="~/Account/Register" style="background: none;">Đăng kí</a></li>
+                                                    <br />
+                                                    <li><a href="~/Account/Logout" style="background: none;">Đăng xuất</a></li>
+
+                                                </ul>
+
+                                            </li>
 
                                         }
                                         else
                                         {
-                                           
-                                                <li class=" dropdown">
-                                                    <a href="#"><i class="fa fa-user"> @user.Username</i> </a>
+
+                                            <li class=" dropdown">
+                                                <a href="~/Account/DangNhap"><i class="fa fa-user"> @user.Username</i> </a>
 
 
-                                                    <ul  class="sub-menu">
-                                                       
-                                                            <li><a href="~/Account/Register">Đăng kí</a></li>
-                                                            <br />
-                                                            <li><a href="#">Đăng xuất</a></li>
-                                                       
-                                                    </ul>
+                                                <ul class="sub-menu">
 
-                                                </li>
-                                        
-                                            
+                                                    <li><a href="~/Account/Register" style="background: none;">Đăng kí</a></li>
+                                                    <br />
+                                                    <li><a href="~/Account/Logout" style="background: none;">Đăng xuất</a></li>
 
-                                                }
-                                                }
-                                                @*@{var Admin = (TAIKHOAN)Session["AdminDangNhap"];
-                        if (Admin is null)
-                        {
+                                                </ul>
 
-                            <li><a href="~/Admin/Admin/Index"><i class="fa fa-lock"></i> Đăng nhập</a></li>
-                        }
-                        else
-                        {
-
-                            <li><a href="~/Admin/Admin/Index"><i class="fa fa-lock"></i>@user.Username</a></li>
+                                            </li>
 
 
-                        }
 
-                    }*@
-                                            </ul>
+                                        }
+                                    }
+                                    @*@{var Admin = (TAIKHOAN)Session["AdminDangNhap"];
+            if (Admin is null)
+            {
+
+                <li><a href="~/Admin/Admin/Index"><i class="fa fa-lock"></i> Đăng nhập</a></li>
+            }
+            else
+            {
+
+                <li><a href="~/Admin/Admin/Index"><i class="fa fa-lock"></i>@user.Username</a></li>
+
+
+            }
+
+        }*@
+                                </ul>
 </div>
                         </div>
                     </div>
