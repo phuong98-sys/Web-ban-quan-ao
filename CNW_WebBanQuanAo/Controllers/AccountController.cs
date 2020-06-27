@@ -91,18 +91,55 @@ namespace CNW_WebBanQuanAo.Controllers
             var result = context.TAIKHOAN.Where(a => a.Username.Equals(acc.Username) &&
                                                       a.Password.Equals(acc.Password)).FirstOrDefault();
 
+            string url = "/Admin/Admin/Index";
+            if (ModelState.IsValid)
+            {
+                if (result != null && result.isAdmin == 0)   // đến trang của người mua 
+                {
+                    Session["dnhap"] = acc;
+
+                    if (Session["dnhap"] != null && Session["CartSession"] != null)  // kiểm tra sesion đăng nhập để lúc mua sản phẩm tiếp theo sau khi đăng nhập thì
+                    {                                                                 // hệ thống không bắt đăng nhập lại để thêm sản phẩm tiếp vào giỏ hàng nữa
+
+
             if (result != null && result.isAdmin == 0)   // đến trang của người mua 
             {
                 Session["dnhap"] = acc;
 
                 if (Session["dnhap"] != null && Session["CartSession"] != null)  // kiểm tra sesion đăng nhập để lúc mua sản phẩm tiếp theo sau khi đăng nhập thì
                 {                                                                 // hệ thống không bắt đăng nhập lại để thêm sản phẩm tiếp vào giỏ hàng nữa
-
-
-                    return Redirect("https://localhost:44332/Home/Index");
+                   return Redirect("https://localhost:44332/Home/Index");
                 }
                 else if (Session["dnhap"] != null && Session["CartSession"] == null)
                 {
+
+                    Session["AdminLogin"] = acc;
+                    //return Redirect("https://localhost:44332/Admin/Admin/Index"); // đến trang admin
+                    return Redirect(url);
+                    
+                }
+                else
+                {
+                    if (CheckUser(acc.Username, acc.Password) == 1)
+                    {
+                        ModelState.AddModelError("", " Mật khẩu sai");
+                    }
+                    else if (CheckUser(acc.Username, acc.Password) == 2)
+                    {
+                        ModelState.AddModelError("", "Tên đăng nhập sai ");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", " Tài khoản chưa đăng kí");
+                    }
+                   
+                }
+              
+            
+           
+            }
+          
+
 
                     return Redirect("https://localhost:44332/Home/Index");
                 }
@@ -115,9 +152,17 @@ namespace CNW_WebBanQuanAo.Controllers
             }
 
 
+
             return View();
         }
-
+        
+        public ActionResult Logout()
+        {
+            Session["dnhap"] = null;
+            return Redirect("/");
+            return View();
+        }
+       
         [HttpPost]
         public ActionResult LoginPost()
         {
