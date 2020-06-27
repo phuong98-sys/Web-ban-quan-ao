@@ -25,35 +25,23 @@ namespace CNW_WebBanQuanAo.Controllers
             return View(cart);
         }
 
-        //public ActionResult AddItem(string returnURL)
-        //{
-        //    int id = Convert.ToInt32(Request.Form["idSanPham"]);
-        //    var product = context.SANPHAM.Find(id);
+        public static string MoneyType(int? money)
+        {
+            if (!money.HasValue) return "";
+            
+            var m = money.ToString();
+            int c = 1;
+            for (int i = m.Length -1; i >= 0; i--)
+            {
+                if (c % 3 == 0)
+                    m = m.Insert(i, " ");
+                c++;
+            }
 
-        //    var cart = (Cart)Session["CartSession"];
+            return m;
+        }
 
-        //    if (cart == null)
-        //    {
-        //        //tạo mới đối tượng cart item
-        //        cart = new Cart();
-        //        cart.AddItem(product, 1);
-        //        //Gán vào session
-        //        Session["CartSession"] = cart;
-        //    }
-        //    if (cart != null)
-        //    {
-        //        cart.AddItem(product, 1);
-        //        //Gán vào session
-        //        Session["CartSession"] = cart;
-        //    }
-
-
-        //    return RedirectToAction("Gio");
-
-
-        //}
-
-        public ActionResult AddItem(int id)
+        public ActionResult AddItem(int id, int quant)
         {
             var product = context.SANPHAM.Find(id);
 
@@ -62,13 +50,13 @@ namespace CNW_WebBanQuanAo.Controllers
             {
                 //tạo mới đối tượng cart item
                 cart = new Cart();
-                cart.AddItem(product, 1);
+                cart.AddItem(product, quant);
                 //Gán vào session
                 Session["CartSession"] = cart;
             }
-            if (cart != null)
+            else if (cart != null)
             {
-                cart.AddItem(product, 1);
+                cart.AddItem(product, quant);
                 //Gán vào session
                 Session["CartSession"] = cart;
             }
@@ -80,18 +68,14 @@ namespace CNW_WebBanQuanAo.Controllers
         [HttpPost]
         public ActionResult AddItemCSDL(GIOHANG model)
         {
-
             context.GIOHANG.Add(model);
             context.SaveChanges();
 
             return Redirect("/Home/Index");
-
-
         }
 
         public ActionResult RemoveLine(int id)
         {
-
             var product = context.SANPHAM.Find(id);
 
             var cart = (Cart)Session["CartSession"];
@@ -105,10 +89,24 @@ namespace CNW_WebBanQuanAo.Controllers
             return RedirectToAction("Gio");
         }
 
-        public ActionResult UpdateCart(int masp, int qty)
+        //public ActionResult UpdateCart(int masp, int qty)
+        //{
+        //    var cart = (Cart)Session["CartSession"];
+
+
+        //    if (cart != null)
+        //    {
+        //        var product = context.SANPHAM.Find(masp);
+        //        cart.UpdateItem(product, qty);
+        //        Session["CartSession"] = cart;
+        //    }
+
+        //    return RedirectToAction("Gio");
+        //}
+
+        public int UpdateCart(int masp, int qty)
         {
             var cart = (Cart)Session["CartSession"];
-           
 
             if (cart != null)
             {
@@ -124,9 +122,12 @@ namespace CNW_WebBanQuanAo.Controllers
                     ModelState.AddModelError("", "Sản phẩm chưa đủ số lượng !!");
                 }
             }
+            var t = qty * product.MATHANG.GiaBan;
+                if (t.HasValue)
+                    return (int) t;
+            }
 
-            return RedirectToAction("Gio");
-
+            return 0;
         }
 
         [HttpGet]

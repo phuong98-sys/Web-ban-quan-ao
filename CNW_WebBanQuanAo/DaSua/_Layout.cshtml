@@ -73,6 +73,8 @@
                                         {
                                             <i class="fa fa-user">
                                                 @Html.ActionLink("Tài khoản", "XemDon", "Cart")
+
+
                                             </i>
                                         }
                                         else
@@ -124,14 +126,28 @@
                                             </i>
                                         }
                                     </li>
-                                    @{var user = (TAIKHOAN)Session["LoggedinUser"];
+                                    @{var user = (TAIKHOAN)Session["dnhap"];
                                         if (user is null)
                                         {
-                                            <li><a href="~/Account/Login"><i class="fa fa-lock"></i> Đăng nhập</a></li>
+                                            <li><a href="~/Account/DangNhap"><i class="fa fa-lock"></i> Đăng nhập</a></li>
+                                            <li><a href="~/Admin/Admin/Index"><i class="fa fa-lock"></i> Đăng nhập</a></li>
                                         }
                                         else
                                         {
-                                            <li><a href="~/Account/Login"><i class="fa fa-user"></i> @user.HoTen </a></li>
+                                            <li><a href="~/Account/DangNhap"><i class="fa fa-user"></i> @user.Username </a></li>
+                                            <li><a href="~/Admin/Admin/Index"><i class="fa fa-lock"></i>@user.Username</a></li>
+                                        }
+                                    }
+                                    @{var Admin = (TAIKHOAN)Session["AdminDangNhap"];
+                                        if (Admin is null)
+                                        {
+                                           
+                                            <li><a href="~/Account/DangNhap"><i class="fa fa-lock"></i> Đăng nhập</a></li>
+                                        }
+                                        else
+                                        {
+                                           
+                                            <li><a href="~/Account/DangNhap"><i class="fa fa-lock"></i>@user.Username</a></li>
                                         }
                                     }
                                 </ul>
@@ -164,7 +180,7 @@
                                             <li><a href="~/Home/Detail">Chi tiết sản phẩm</a></li>
                                             <li><a href="~/Home/Checkout">Thanh toán</a></li>
                                             <li><a href="~/Home/Cart">Giỏ hàng</a></li>
-                                            <li><a href="~/Home/Login">Đăng nhập</a></li>
+                                            <li><a href="~/Home/DangNhap">Đăng nhập</a></li>
                                         </ul>
                                     </li>
                                     <!--<li><a href="404.html">404</a></li>-->
@@ -178,10 +194,10 @@
                                 {
                                     <p>
                                         @Html.TextBox("SearchString")
-                                        <input type="submit" value="Tìm kiếm" placeholder="Tìm theo tên sản phẩm" />
+                                        <input type="submit" value="Tìm kiếm" placeholder="Tìm theo tên sản phẩm"/>
                                     </p>
                                 }
-                            </div>
+                                </div>
                         </div>
                     </div>
                 </div>
